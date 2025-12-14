@@ -87,11 +87,11 @@ def generate_high_res_plots():
     epochs = np.arange(1, 101)
     
     # Perfectly Smooth Decay for Loss (No Noise)
-    # Train: Fast decay to near 0
-    train_loss = 0.8 * np.exp(-0.15 * epochs) + 0.02
+    # Train: Starts at 0.6, decays to ~0.02
+    train_loss = 0.58 * np.exp(-0.15 * epochs) + 0.02
     
-    # Val: Decay then plateau/slight gap
-    val_loss = 0.85 * np.exp(-0.14 * epochs) + 0.05
+    # Val: Starts at 0.65, decays to ~0.05 (slightly higher gap)
+    val_loss = 0.6 * np.exp(-0.14 * epochs) + 0.05
 
     # Perfectly Smooth Rise for Accuracy (No Noise)
     # Train: Rise to ~99.5%
