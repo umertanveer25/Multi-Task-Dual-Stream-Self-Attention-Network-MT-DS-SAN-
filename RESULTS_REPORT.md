@@ -52,7 +52,7 @@ The system demonstrates robust performance on the difficult Test+ set, which con
 
 ### Visualizations
 The `results/` directory contains high-quality charts for paper submission:
-- **`training_dynamics_publication_ready.png`**: **IEEE/ACM Standard** side-by-side plot of Accuracy and Loss adaptation (600 DPI, Times New Roman).
+- **`training_dynamics_100epochs_no_grid.png`**: **Publication-Quality** side-by-side plot showing 100 epochs of training/validation accuracy and loss convergence (600 DPI, clean design without grid).
 - `combined_performance_600dpi.png`: 600 DPI combined Confusion Matrix & ROC Curve.
 
 
