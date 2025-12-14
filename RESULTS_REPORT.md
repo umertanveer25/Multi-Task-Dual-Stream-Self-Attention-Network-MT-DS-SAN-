@@ -9,6 +9,20 @@ The proposed **MT-DS-SAN** architecture has been evaluated against the **NSL-KDD
 | **Accuracy** | KDDTest+ (Zero-Shot) | 80% - 82% | **80.2%** | **Generalization**: Maintains high accuracy even on unseen attack types. |
 | **Detection Rate** | KDDTrain+ | ~99.0% | **99.3%** | **Precision**: Self-Attention effectively isolates attack signatures. |
 
+
+## 📈 Extended Metrics (Test+ Set)
+Detailed analysis of the model's performance on the difficult Test+ dataset.
+
+| Metric | Value | Description |
+| :--- | :--- | :--- |
+| **Accuracy** | **80.22%** | Overall correctness on zero-shot data. |
+| **Sensitivity (Recall)** | **0.7107** | Ability to detect attacks (True Positive Rate). |
+| **Specificity** | **0.9231** | Ability to ignore normal traffic (True Negative Rate). |
+| **MCC** | **0.6326** | Matthews Correlation Coefficient (Quality of binary classification). |
+| **AUC** | **0.9464** | Area Under ROC Curve (Separability). |
+| **MAE** | **0.1981** | Mean Absolute Error (Probabilistic error). |
+| **RMSE** | **0.4213** | Root Mean Squared Error. |
+
 ## 💡 Novelty & Superiority Analysis
 
 ### 1. Dual-Stream Architecture vs. Traditional DNNs
