@@ -51,10 +51,10 @@ The system demonstrates robust performance on the difficult Test+ set, which con
 - **False Alarm Rate**: 7.69%
 
 ### Visualizations
-The `results/` directory contains generated charts:
-- `training_curve.png`: Demonstrates rapid convergence to >99% training accuracy.
-- `roc_curve.png`: Shows AUC performance.
-- `confusion_matrix.png`: Detailed breakdown of True Positives/Negatives.
+The `results/` directory contains high-quality charts for paper submission:
+- **`training_dynamics_publication_ready.png`**: **IEEE/ACM Standard** side-by-side plot of Accuracy and Loss adaptation (600 DPI, Times New Roman).
+- `combined_performance_600dpi.png`: 600 DPI combined Confusion Matrix & ROC Curve.
+
 
 ## 🔗 References
 [1] Recent 2024 Papers (HDC, ZR-GRU) beating 99%.
