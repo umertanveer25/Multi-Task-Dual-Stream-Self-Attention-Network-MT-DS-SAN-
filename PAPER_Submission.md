@@ -9,19 +9,19 @@ $^{*}$Correspondence: umer.tanveer@example.com
 
 ---
 
-## 2. Abstract
+## Abstract
 
 **Abstract** — The exponential growth of Internet of Things (IoT) ecosystems has expanded the cyber-attack surface, rendering traditional perimeter-based security insufficient. While Deep Learning (DL) Intrusion Detection Systems (IDS) have shown promise, existing architectures predominantly treat network traffic data as homogeneous vectors, ignoring the fundamental statistical distinction between continuous traffic metrics and categorical control flags. This "feature homogeneity" assumption often leads to suboptimal feature extraction and overfitting on training signatures. In this paper, we propose the **Multi-Task Dual-Stream Self-Attention Network (MT-DS-SAN)** to address these limitations. Our framework introduces a novel Heterogeneous Feature Interaction mechanism comprising: (1) **Dual-Stream Encoders** that project continuous and categorical features into distinct semantic manifolds to preserve their unique distributions; (2) **Feature-Wise Self-Attention** that dynamically computes broad contextual feature dependencies per packet, unrelated to temporal sequence; and (3) A **Multi-Task Learning (MTL) Objective** that concurrently optimizes an auxiliary unsupervised reconstruction task alongside binary classification, acting as a robust regularizer against zero-day attack overfitting. Extensive experiments on the benchmark **NSL-KDDTest+** dataset demonstrate that MT-DS-SAN achieves a state-of-the-art accuracy of **80.22%** and an Area Under the Curve (AUC) of **0.946**, significantly outperforming traditional Convolutional and Recurrent Neural Networks by margins of 2.1% and 3.4%, respectively. The model exhibits a Sensitivity of **71.07%** and specific robustness to low-frequency User-to-Root (U2R) attacks.
 
 ---
 
-## 3. Keywords
+## Keywords
 
 **Keywords** — Intrusion Detection System, Multi-Task Learning, Self-Attention Mechanism, Feature Engineering, Deep Learning, Network Security, NSL-KDD.
 
 ---
 
-## 4. Introduction
+## 1. Introduction
 
 The ubiquity of high-speed networks and the massive deployment of IoT devices have catalyzed a corresponding surge in cyber-threat vectors. As network infrastructures evolve from static enterprise environments to dynamic edge-cloud continuums, the volume and velocity of traffic have rendered manual forensic analysis and signature-based detection (e.g., Snort) increasingly obsolete. This has necessitated the adoption of Anomaly-Based Intrusion Detection Systems (AIDS), which leverage statistical deviations to identify malicious activity, including previously unseen zero-day attacks.
 
@@ -40,15 +40,15 @@ To bridge these gaps, we propose **MT-DS-SAN**, a unified architecture that expl
 
 ---
 
-## 5. Related Work
+## 2. Related Work
 
-### 5.1. Statistical and Classical Machine Learning
+### 2.1. Statistical and Classical Machine Learning
 Early IDS research relied heavily on statistical methods. Denning [3] introduced the anomaly detection model, which was later expanded using Bayesian networks [4] and Support Vector Machines (SVM) [5]. While interpretable, these models struggle with the high-dimensional, non-linear dependencies inherent in modern encrypted traffic.
 
-### 5.2. Deep Learning in IDS
+### 2.2. Deep Learning in IDS
 The advent of Deep Learning revolutionized IDS. Yin et al. [6] proposed RNN-IDS, utilizing recurrent networks to capture temporal dependencies. However, network packets in datasets like NSL-KDD are often flow-summarized, reducing the efficacy of temporal modeling. CNN-based approaches [7] treat traffic as images but struggle to capture long-range dependencies between distant features (e.g., `protocol` matching `dst_host_error_rate`).
 
-### 5.3. Attention Mechanisms and Transformers
+### 2.3. Attention Mechanisms and Transformers
 Recent work has begun adapting Transformers [20] for tabular data. TabNet [8] utilizes sequential attention for feature selection. However, few existing works apply attention explicitly to disentangled streams for intrusion detection.
 
 **Table 1: Comparison of Related Works**
@@ -61,11 +61,11 @@ Recent work has begun adapting Transformers [20] for tabular data. TabNet [8] ut
 
 ---
 
-## 6. Methodology / Proposed Framework
+## 3. Methodology / Proposed Framework
 
 The proposed MT-DS-SAN architecture is depicted in Figure 1. It consists of three primary modules: Data Preprocessing, Dual-Stream Feature Extraction, and Multi-Task Prediction Heads.
 
-### 6.1. System Architecture
+### 3.1. System Architecture
 
 ```mermaid
 graph TD
@@ -100,7 +100,7 @@ graph TD
 ```
 *Figure 1: High-level block diagram of the MT-DS-SAN architecture.*
 
-### 6.2. Mathematical Model
+### 3.2. Mathematical Model
 
 #### 6.2.1. Dual-Stream Projection
 Let $\mathbf{x} \in \mathbb{R}^{D}$ be an input sample. We partition $\mathbf{x}$ into $\mathbf{x}_c \in \mathbb{R}^{N_c}$ (continuous) and $\mathbf{x}_d \in \mathbb{R}^{N_d}$ (categorical).
@@ -123,14 +123,14 @@ $$ \mathcal{L}_{total}(\theta) = \mathcal{L}_{BCE}(y, \hat{y}) + \lambda \mathca
 
 where $\mathcal{L}_{BCE}$ is the binary cross-entropy for detection, and $\mathcal{L}_{MSE}$ minimizes the reconstruction error of the regularizing autoencoder. $\lambda$ is set to 0.5 based on grid search.
 
-### 6.3. Complexity Analysis
+### 3.3. Complexity Analysis
 The computational complexity is dominated by the self-attention mechanism, $\mathcal{O}(L^2 d)$, where $L$ is the feature dimension. Since $L \approx 122$ (after encoding), this is significantly more efficient than standard Transformers operating on long text sequences ($L \approx 512+$), making MT-DS-SAN suitable for near real-time inference.
 
 ---
 
-## 7. Dataset & Experimental Setup
+## 4. Dataset & Experimental Setup
 
-### 7.1. Dataset Description
+### 4.1. Dataset Description
 We utilize the NSL-KDD dataset [1], refined to remove redundant records from KDD'99.
 *   **KDDTrain+**: 125,973 records (Used for Training).
 *   **KDDTest+**: 22,544 records (Used for Validation/Testing). Crucially, this set contains 17 specific attack types (e.g., *apache2*, *httptunnel*) not present in the training set.
@@ -144,7 +144,7 @@ We utilize the NSL-KDD dataset [1], refined to remove redundant records from KDD
 | R2L | 995 | 2,754 | Remote to Local (e.g., Guess_Passwd). |
 | U2R | 52 | 200 | User to Root (e.g., Rootkit). |
 
-### 7.2. Implementation Details
+### 4.2. Implementation Details
 The model was implemented in PyTorch 2.0. Experiments were conducted on an NVIDIA RTX 3060 GPU.
 
 **Table 3: Hyperparameter Configuration**
@@ -159,15 +159,15 @@ The model was implemented in PyTorch 2.0. Experiments were conducted on an NVIDI
 
 ---
 
-## 8. Results
+## 5. Results
 
-### 8.1. Training Dynamics and Convergence
+### 5.1. Training Dynamics and Convergence
 The training process is visualized in Figure 2. The classification accuracy (left) converges rapidly to ~99.3%, while the multi-task loss (right) shows a strictly monotonic decay, starting from 0.6 and stabilizing at 0.02. The validation accuracy stabilizes around 80.2%, indicating that the Multi-Task Regularization successfully prevented the "catastrophic forgetting" or severe overfitting typically seen in single-task models where validation accuracy drops after epoch 20.
 
 ![Training Dynamics](results/training_dynamics_100epochs_no_grid.png)
 *Figure 2: Training and validation dynamics over 100 epochs. (a) Accuracy Evolution, (b) Loss Convergence. Note the smooth, noise-free convergence attributed to the robust AdamW optimizer and clean gradient formulation.*
 
-### 8.2. Quantitative Evaluation
+### 5.2. Quantitative Evaluation
 Table 4 presents the detailed performance metrics on the `KDDTest+` dataset. The model achieves an overall accuracy of **80.22%**.
 
 **Table 4: Comprehensive Performance Metrics**
@@ -182,13 +182,13 @@ Table 4 presents the detailed performance metrics on the `KDDTest+` dataset. The
 | **AUC** | 0.9464 | Excellent separability. |
 | **RMSE** | 0.4213 | Low regression error. |
 
-### 8.3. Receiver Operating Characteristic (ROC) Analysis
+### 5.3. Receiver Operating Characteristic (ROC) Analysis
 Figure 3 displays the ROC curve and Confusion Matrix. The AUC of **0.946** confirms that the model maintains a high True Positive Rate even at low False Positive thresholds, a critical requirement for production IDS to avoid alert fatigue.
 
 ![Performance](results/combined_performance_600dpi.png)
 *Figure 3: (Left) Confusion Matrix showing class-wise predictions. (Right) ROC Curve demonstrating high separability (AUC=0.946).*
 
-### 8.4. Ablation Study
+### 5.4. Ablation Study
 To validate our design choices, we performed an ablation study (Table 5).
 
 **Table 5: Ablation Study Results**
@@ -203,7 +203,7 @@ Removing the Reconstruction Loss caused the most significant drop, confirming th
 
 ---
 
-## 9. Discussion
+## 6. Discussion
 
 The results underscore the efficacy of explicitly modeling the heterogeneous nature of network data. Standard Deep Learning models (the "w/o Dual Stream" baseline) struggle because the embedding space for categorical variables gets polluted by the high-variance gradients of continuous variables in early layers. By isolating them, MT-DS-SAN allows each feature type to converge to its optimal representation before fusion.
 
@@ -213,7 +213,7 @@ The robust performance on `KDDTest+`, which implies zero-shot learning capabilit
 
 ---
 
-## 10. Threats to Validity
+## 7. Threats to Validity
 
 While our results are promising, two primary threats to validity exist:
 1.  **Dataset Age**: NSL-KDD is based on 1999 traffic. While it remains the mathematical benchmark for comparative study, modern attack vectors (e.g., adversarial examples, encrypted DNS tunneling) are likely underrepresented.
@@ -221,7 +221,7 @@ While our results are promising, two primary threats to validity exist:
 
 ---
 
-## 11. Conclusion and Future Work
+## 8. Conclusion and Future Work
 
 In this paper, we presented the **Multi-Task Dual-Stream Self-Attention Network (MT-DS-SAN)**, a novel architecture for Network Intrusion Detection. By synergizing dual-stream feature extraction with multi-task semi-supervised learning, we achieved a remarkable **80.22%** accuracy on the challenging `KDDTest+` dataset, setting a new benchmark for reproducible research. The model effectively balances sensitivity and specificity, making it a viable candidate for deployment in modern SOCs.
 
@@ -232,7 +232,7 @@ In this paper, we presented the **Multi-Task Dual-Stream Self-Attention Network 
 
 ---
 
-## 12. References
+##References
 
 [1] M. Tavallaee, E. Bagheri, W. Lu, and A. A. Ghorbani, "A detailed analysis of the KDD CUP 99 data set," in *Proc. IEEE Symp. Comput. Intell. Secur. Def. Appl. (CISDA)*, 2009, pp. 1–6.
 [2] J. Kim, J. Kim, H. L. T. Thu, and H. Kim, "Long Short Term Memory Recurrent Neural Network Classifier for Intrusion Detection," in *Proc. Plat. Tech. Comp. Sys.*, 2016.
