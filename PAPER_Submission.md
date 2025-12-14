@@ -2,8 +2,8 @@
 
 **Umer Tanveer**$^{1,*}$ and **Yar Muhammad**$^{2}$
 
-$^{1}$Department of Computer Science, [Your University Name], [City], [Country]
-$^{2}$Department of Software Engineering, [Your University Name], [City], [Country]
+$^{1}$Department of Computer Science, [Abdul Wali Khan Univeristy], [Mardan], [Pakistan]
+$^{2}$Department of Compuer Science, [Abdul Wali Khan University], [Mardan], [Pakistan]
 
 $^{*}$Correspondence: umer.tanveer@example.com
 
